@@ -9,13 +9,13 @@ import (
 )
 
 func (self *MyDockerNetworkPlugin) AllocateNetwork(req *n.AllocateNetworkRequest) (*n.AllocateNetworkResponse, error) {
-	json, _ := json.Marshal(req)
-	log.Printf("Received AllocateNetwork req:\n%+v\n", string(json))
+	reqJson, _ := json.Marshal(req)
+	log.Printf("Received AllocateNetwork req:\n%+v\n", string(reqJson))
 
 	response, err := mac.AllocateNetwork(req)
 
-	json, _ = json.Marshal(response)
-	log.Printf("Returning AllocateNetwork respone:\n%+v\n", string(json))
+	respJson, _ = json.Marshal(response)
+	log.Printf("Returning AllocateNetwork respone:\n%+v\n", string(respJson))
 
 	return response, err
 }
