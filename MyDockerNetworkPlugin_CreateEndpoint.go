@@ -1,28 +1,21 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 
 	n "github.com/docker/go-plugins-helpers/network"
+	mac "github.com/docker/libnetwork/drivers/macvlan"
 )
 
 func (self *MyDockerNetworkPlugin) CreateEndpoint(req *n.CreateEndpointRequest) (*n.CreateEndpointResponse, error) {
-	log.Printf("Received CreateEndpoint req:\n%+v\n", req)
+	json, _ := json.Marshal(req)
+	log.Printf("Received CreateEndpoint req:\n%+v\n", string(json))
 
-	// If the remote process was supplied a non-empty value in Interface, it
-	// must respond with an empty Interface value. LibNetwork will treat it as
-	// an error if it supplies a non-empty value and receives a non-empty value
-	// back, and roll back the operation.
-	intfInfo := new(n.EndpointInterface)
+	response, err = mac.CreateEndpoint(req)
 
-	if req.Interface == nil {
-		// case never hit in docker v1.11.0, but in tests
-		intfInfo.Address = "1.1.1.1/24"
-		// AddressIPv6 - optional
-		intfInfo.MacAddress = "00:00:00:00:00:aa"
-	}
-	resp := &n.CreateEndpointResponse{
-		Interface: intfInfo,
-	}
-	return resp, nil
+	json, _ = json.Marshal(response)
+	log.Printf("Returning CreateEndpoint respone:\n%+v\n", string(json))
+
+	return response, err
 }
