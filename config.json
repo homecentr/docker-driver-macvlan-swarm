@@ -1,0 +1,12 @@
+{
+	"description": "Macvlan driver wrapper compatible with Docker Swarm",
+	"documentation": "https://docs.docker.com/engine/extend/plugins/",
+	"entrypoint": ["/docker-driver-macvlan-swarm"],
+	"network": {
+		   "type": "host"
+		   },
+	"interface" : {
+		   "types": ["docker.networkdriver/1.0"],
+		   "socket": "mdnp.sock"
+	}
+}

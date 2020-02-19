@@ -3,12 +3,13 @@
 package main
 
 import (
-	"log"
 	"os"
 
+	log "github.com/sirupsen/logrus"
+
+	m "github.com/homecentr/docker-driver-macvlan-swarm/mdnp"
+
 	n "github.com/docker/go-plugins-helpers/network"
-	s "github.com/docker/go-plugins-helpers/sdk"
-	m "driver1/macvlan"
 )
 
 var (
@@ -16,30 +17,30 @@ var (
 )
 
 // return the default prod config for ad_service
-func NewMyDockerNetworkPlugin(scope string) (*MyDockerNetworkPlugin, error) {
-	a := new m.Dummy()
-
-	mdnp := &MyDockerNetworkPlugin{
-		scope: scope,
+func NewMyDockerNetworkPlugin(scope string) (*m.MyDockerNetworkPlugin, error) {
+	mdnp := &m.MyDockerNetworkPlugin{
+		Scope: scope,
 	}
 	return mdnp, nil
 }
 
 func main() {
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.DebugLevel)
+
 	driver, err := NewMyDockerNetworkPlugin("local")
 	if err != nil {
 		log.Fatalf("ERROR: %s init failed!", PLUGIN_NAME)
 	}
 
 	requestHandler := n.NewHandler(driver)
-	log.Printf("Hello 3")
 
-	err = os.RemoveAll(s.WindowsDefaultDaemonRootDir() + "\\plugins")
-	if err != nil {
-		log.Fatalf("Removing dir failed...")
-	}
+	// err = os.RemoveAll(s.WindowsDefaultDaemonRootDir() + "\\plugins")
+	// if err != nil {
+	// 	log.Fatalf("Removing dir failed...")
+	// }
 
-	err1 := requestHandler.ServeTCP(PLUGIN_NAME, ":2804", s.WindowsDefaultDaemonRootDir(), nil)
+	err1 := requestHandler.ServeUnix(PLUGIN_NAME, 0)
 	if err1 != nil {
 		log.Fatalf("FATAL ERROR.... %s", err1)
 	}

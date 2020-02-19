@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  dns:
+    image: nginx
+    restart: unless-stopped
+    networks:
+      mdnp_net:
+        ipv4_address: 192.168.2.249
+
+networks:
+    mdnp_net:
+        name: "mdnp_test"
+        driver: mdnp
+        driver_opts:
+            parent: eth0
+            scope: swarm
+        ipam:
+            config:
+                - subnet: 192.168.2.0/24
