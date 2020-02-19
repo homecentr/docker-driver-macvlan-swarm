@@ -5,17 +5,13 @@ import (
 	"log"
 
 	n "github.com/docker/go-plugins-helpers/network"
-	mac "github.com/docker/libnetwork/drivers/macvlan"
+	"github.com/docker/libnetwork/types"
 )
 
 func (self *MyDockerNetworkPlugin) AllocateNetwork(req *n.AllocateNetworkRequest) (*n.AllocateNetworkResponse, error) {
 	reqJson, _ := json.Marshal(req)
 	log.Printf("Received AllocateNetwork req:\n%+v\n", string(reqJson))
 
-	response, err := mac.NetworkAllocate(req.NetworkID, req.Options, req.IPv4Data, req.IPv6Data)
-
-	respJson, _ = json.Marshal(response)
-	log.Printf("Returning AllocateNetwork respone:\n%+v\n", string(respJson))
-
-	return response, err
+	// As per the built-in implementation
+	return nil, types.NotImplementedErrorf("not implemented")
 }

@@ -5,15 +5,13 @@ import (
 	"log"
 
 	n "github.com/docker/go-plugins-helpers/network"
-	mac "github.com/docker/libnetwork/drivers/macvlan"
 )
 
 func (self *MyDockerNetworkPlugin) Join(req *n.JoinRequest) (*n.JoinResponse, error) {
-	log.Printf("Received Join req:\n%+v\n", string(json.Marshal(req)))
+	reqJson, _ := json.Marshal(req)
+	log.Printf("Received Join req:\n%+v\n", string(reqJson))
 
-	response, err = mac.Join(req)
+	// TODO: Connect container to the impl network
 
-	log.Printf("Respose Join req:\n%+v\n", string(json.Marshal(response)))
-
-	return response, error
+	return nil, nil
 }

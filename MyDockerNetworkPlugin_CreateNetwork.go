@@ -5,12 +5,11 @@ import (
 	"log"
 
 	n "github.com/docker/go-plugins-helpers/network"
-	mac "github.com/docker/libnetwork/drivers/macvlan"
 )
 
 func (self *MyDockerNetworkPlugin) CreateNetwork(req *n.CreateNetworkRequest) error {
-	json, _ := json.Marshal(req)
-	log.Printf("Received CreateNetwork req:\n%+v\n", string(json))
+	reqJson, _ := json.Marshal(req)
+	log.Printf("Received CreateNetwork req:\n%+v\n", string(reqJson))
 
-	return mac.CreateNetwork(req)
+	return nil
 }

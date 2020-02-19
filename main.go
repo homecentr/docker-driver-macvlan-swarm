@@ -8,6 +8,7 @@ import (
 
 	n "github.com/docker/go-plugins-helpers/network"
 	s "github.com/docker/go-plugins-helpers/sdk"
+	m "driver1/macvlan"
 )
 
 var (
@@ -16,6 +17,8 @@ var (
 
 // return the default prod config for ad_service
 func NewMyDockerNetworkPlugin(scope string) (*MyDockerNetworkPlugin, error) {
+	a := new m.Dummy()
+
 	mdnp := &MyDockerNetworkPlugin{
 		scope: scope,
 	}

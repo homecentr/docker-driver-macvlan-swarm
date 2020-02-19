@@ -5,11 +5,11 @@ import (
 	"log"
 
 	n "github.com/docker/go-plugins-helpers/network"
-	mac "github.com/docker/libnetwork/drivers/macvlan"
 )
 
 func (self *MyDockerNetworkPlugin) RevokeExternalConnectivity(req *n.RevokeExternalConnectivityRequest) error {
-	log.Printf("Received RevokeExternalConnectivity req:\n%+v\n", string(json.Marshal(req)))
+	reqJson, _ := json.Marshal(req)
+	log.Printf("Received RevokeExternalConnectivity req:\n%+v\n", string(reqJson))
 
-	return mac.RevokeExternalConnectivity(req)
+	return nil
 }

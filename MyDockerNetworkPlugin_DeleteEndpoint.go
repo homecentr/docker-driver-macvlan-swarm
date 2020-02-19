@@ -5,13 +5,11 @@ import (
 	"log"
 
 	n "github.com/docker/go-plugins-helpers/network"
-	mac "github.com/docker/libnetwork/drivers/macvlan"
 )
 
 func (self *MyDockerNetworkPlugin) DeleteEndpoint(req *n.DeleteEndpointRequest) error {
-	log.Printf("Received DeleteEndpoint req:\n%+v\n", string(json.Marshal(req)))
+	reqJson, _ := json.Marshal(req)
+	log.Printf("DeleteEndpoint.Request:\n%+v\n", string(reqJson))
 
-	err = mac.CreateEndpoint(req)
-
-	return err
+	return nil
 }

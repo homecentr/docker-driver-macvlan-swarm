@@ -1,18 +1,16 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
-
 	n "github.com/docker/go-plugins-helpers/network"
-	mac "github.com/docker/libnetwork/drivers/macvlan"
+	datastore "github.com/docker/libnetwork/datastore"
 )
 
 func (self *MyDockerNetworkPlugin) GetCapabilities() (*n.CapabilitiesResponse, error) {
 
-	response, err = mac.GetCapabilities()
+	response := &n.CapabilitiesResponse{
+		Scope:             datastore.LocalScope,
+		ConnectivityScope: datastore.GlobalScope,
+	}
 
-	log.Printf("Respose GetCapabilities req:\n%+v\n", string(json.Marshal(response)))
-
-	return response, error
+	return response, nil
 }
